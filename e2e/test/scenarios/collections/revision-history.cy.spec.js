@@ -11,8 +11,8 @@ import {
 
 const PERMISSIONS = {
   curate: ["admin", "normal", "nodata"],
-  // view: ["readonly"],
-  // no: ["nocollection", "nosql", "none"],
+  view: ["readonly"],
+  no: ["nocollection", "nosql", "none"],
 };
 
 describe("revision history", () => {
