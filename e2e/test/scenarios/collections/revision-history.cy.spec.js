@@ -10,8 +10,7 @@ import {
 } from "e2e/support/helpers";
 
 const PERMISSIONS = {
-  // curate: ["admin", "normal", "nodata"],
-  curate: ["nodata"],
+  curate: ["admin", "normal", "nodata"],
   // view: ["readonly"],
   // no: ["nocollection", "nosql", "none"],
 };
