@@ -4,13 +4,21 @@ import { t } from "ttag";
 import { hasPremiumFeature } from "metabase-enterprise/settings";
 import { ModalRoute } from "metabase/hoc/ModalRoute";
 import {
+  PLUGIN_REDUCERS,
   PLUGIN_ADVANCED_PERMISSIONS,
   PLUGIN_ADMIN_PERMISSIONS_DATABASE_ROUTES,
   PLUGIN_ADMIN_PERMISSIONS_DATABASE_POST_ACTION,
   PLUGIN_ADMIN_PERMISSIONS_DATABASE_GROUP_ROUTES,
 } from "metabase/plugins";
-import RoleAttributeMappingModal from "./components/RoleAttributeMappingModal";
-import { getImpersonatedPostAction } from "./actions";
+import { ImpersonationModal } from "./components/ImpersonationModal";
+import { getImpersonatedPostAction, impersonationSlice } from "./reducer";
+import {
+  createThunkAction,
+  createAction,
+  handleActions,
+  combineReducers,
+  withRequestState,
+} from "metabase/lib/redux";
 
 const IMPERSONATED_PERMISSION_OPTION = {
   label: t`Impersonated`,
@@ -46,7 +54,7 @@ if (hasPremiumFeature("advanced_permissions")) {
     <ModalRoute
       key="impersonated/group/:groupId"
       path="impersonated/group/:groupId"
-      modal={RoleAttributeMappingModal}
+      modal={ImpersonationModal}
     />,
   );
 
@@ -54,7 +62,7 @@ if (hasPremiumFeature("advanced_permissions")) {
     <ModalRoute
       key="impersonated/database/:impersonatedDatabaseId"
       path="impersonated/database/:impersonatedDatabaseId"
-      modal={RoleAttributeMappingModal}
+      modal={ImpersonationModal}
     />,
   );
 
@@ -63,4 +71,8 @@ if (hasPremiumFeature("advanced_permissions")) {
 
   PLUGIN_ADMIN_PERMISSIONS_DATABASE_POST_ACTION["impersonated"] =
     getImpersonatedPostAction;
+
+  PLUGIN_REDUCERS.advancedPermissionsPlugin = combineReducers({
+    impersonations: impersonationSlice,
+  });
 }
